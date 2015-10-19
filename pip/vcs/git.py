@@ -100,9 +100,11 @@ class Git(VersionControl):
         self.run_command(['fetch', '-q'], cwd=dest)
         # Then reset to wanted revision (maby even origin/master)
         if rev_options:
+            self.run_command(['checkout', '-f', '-q'] + rev_options, cwd=dest)
             rev_options = self.check_rev_options(
                 rev_options[0], dest, rev_options,
             )
+
         self.run_command(['reset', '--hard', '-q'] + rev_options, cwd=dest)
         #: update submodules
         self.update_submodules(dest)
